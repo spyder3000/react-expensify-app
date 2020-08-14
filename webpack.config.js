@@ -7,7 +7,7 @@ const path = require('path');   // 'path' is a built-in node function
 module.exports = {
     //entry: './src/app.js', 
     //entry: './src/playground/destructuring.js',
-    entry: './src/playground/redux-expensify.js',  
+    entry: './src/app.js',  
     output: {
         path: path.join(__dirname, 'public'),       // needs to be an absolute path
         filename: 'bundle.js'
