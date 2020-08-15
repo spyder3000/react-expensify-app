@@ -1,27 +1,31 @@
 import React from 'react';   // using ES6 syntax for React;  
-import ExpenseForm from './ExpenseForm'; 
 import { connect } from 'react-redux'; 
+import ExpenseForm from './ExpenseForm'; 
 import { editExpense, removeExpense } from '../actions/expenses'; 
 
-const EditExpensePage = (props) => {
-    //console.log('aaa', props);  
-    return (
-        <div>
-            <ExpenseForm 
-                expense={props.expense}  // expense prop to hold existing expense object;  from mapStateToProps() below
-                onSubmit={(expense) => {
-                    // Dispatch the action to edit the expense & redirect to dashboard page
-                    props.dispatch(editExpense(props.expense.id, expense));  // params - id & object w/ description, note, amount, createdAt
-                    props.history.push('/');   // switch to Dashboard page;  on Chrome, click 'Components' - 'EditExpensePage' to see history object
-                    //console.log('updated', props.expense.id, 'aaa', expense)
-                }}
-            />
-            <button onClick={() => {
-                props.dispatch(removeExpense({id: props.expense.id}));  
-                props.history.push('/');  
-            }}>Remove</button>
-        </div>
-    );
+export class EditExpensePage extends React.Component {
+    onSubmit= (expense) => {
+        console.log(expense); 
+        // this.props.dispatch(editExpense(this.props.expense.id, expense));  // params - id & object w/ description, note, amount, createdAt
+        this.props.editExpense(this.props.expense.id, expense);  // replaces above line by removing dispatch which is in mapDispatchToProps below
+        this.props.history.push('/');   // switch to Dashboard page;  from Chrome, click 'Components' then 'AddExpensePage' to see history object
+    }
+    onRemove = () => {
+        // this.props.dispatch(removeExpense({id: this.props.expense.id}));
+        this.props.removeExpense({ id: this.props.expense.id });   
+        this.props.history.push('/'); 
+    }
+    render() {
+        return (
+            <div>
+                <ExpenseForm 
+                    expense={this.props.expense}  // expense prop to hold existing expense object;  from mapStateToProps() below
+                    onSubmit={this.onSubmit}    
+                />
+                <button onClick={this.onRemove}>Remove</button>
+            </div>
+        );
+    }
 }; 
 
 
@@ -33,5 +37,11 @@ const mapStateToProps = (state, props) => {
     }
 }
 
-export default connect(mapStateToProps)(EditExpensePage);   // mapStateToProps to get us current data from state
+// goal is to return an object;  to more easily test, we want to replace props.dispatch(editExpense(expense)) above w/ props.onSubmit(expense);  
+//  2nd param is Own props -- it's there if needed, but not needed here 
+const mapDispatchToProps = (dispatch, props) => ({     // implicitly returns object;  same as => { return { onsubmit: ... } }
+    editExpense: (id, expense) => dispatch(editExpense(id, expense)), 
+    removeExpense: (data) => dispatch(removeExpense(data))
+}); 
 
+export default connect(mapStateToProps, mapDispatchToProps)(EditExpensePage); // mapStateToProps to get us current data from state

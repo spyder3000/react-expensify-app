@@ -3,12 +3,16 @@ import { connect } from 'react-redux';   // connect to connect to Redux Store
 import ExpenseListItem from './ExpenseListItem';  
 import selectExpenses from '../selectors/expenses'; 
 
-const ExpenseList = (props) => (
+export const ExpenseList = (props) => (     // set to export to test in ExpenseList.test.js 
     <div>
-        <h1>Expense List</h1>
-        {props.expenses.map((expense) => {
-            return <ExpenseListItem key={expense.id} {...expense} />   /* ...expense allows for destructuring in ExpenseListItem */
-        })}
+        { props.expenses.length === 0 ? (
+            <p>No expenses</p>
+        ) : (
+            props.expenses.map((expense) => {
+                return <ExpenseListItem key={expense.id} {...expense} />   /* ...expense allows for destructuring in ExpenseListItem */
+            })
+        )
+        }
     </div>
 ); 
 

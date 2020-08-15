@@ -4,7 +4,7 @@ const filtersReducerDefaultState = {
     text: '', 
     sortBy: 'date', 
     startDate: moment().startOf('month'),   // found in momentjs.com/docs -- look for manipulate & Start of Time / End of Time 
-    endDate: moment().endOf('month')
+    endDate: moment().endOf('month')        //   sets defaults to start of month & end of month;  
 }
 const filtersReducer = (state=filtersReducerDefaultState, action) => {
     switch (action.type) {

@@ -6,7 +6,7 @@ import { Link } from 'react-router-dom';
 // Export a stateless functional component 
 //   description, amount, createdAt
 
-const ExpenseListItem = ({dispatch,description, amount, createdAt, id}) => (      /* dispatch can be accessed via destructred var also */
+const ExpenseListItem = ({dispatch,description, amount, createdAt, id}) => (   /* dispatch can be accessed via destructred var also */
     <div>
         <Link to={`/edit/${id}`}>
           <h3>{description}</h3>
