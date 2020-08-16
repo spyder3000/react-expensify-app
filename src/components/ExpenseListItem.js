@@ -1,5 +1,8 @@
 import React from 'react';   // all JSX is converted into React.createElement, so React here is needed, even for stateless components;
 import { Link } from 'react-router-dom'; 
+import moment from 'moment'; 
+import numeral from 'numeral'; 
+
 //import { removeExpense, editExpense } from '../actions/expenses'
 //import { connect } from 'react-redux';  
 
@@ -12,7 +15,11 @@ const ExpenseListItem = ({dispatch,description, amount, createdAt, id}) => (   /
           <h3>{description}</h3>
         </Link> 
 
-        <p>{amount} - {createdAt} </p>
+        <p>
+          {numeral(amount / 100).format('$0,0.00')}   
+          - 
+          {moment(createdAt).format('MMMM Do, YYYY')}   
+        </p>
         {/*<button onClick={() => {
           dispatch(removeExpense({id}))
         }}> Remove </button>  */}
