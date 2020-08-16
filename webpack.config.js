@@ -13,7 +13,7 @@ module.exports = (env) => {
         //entry: './src/playground/destructuring.js',
         entry: './src/app.js',  
         output: {
-            path: path.join(__dirname, 'public'),       // needs to be an absolute path
+            path: path.join(__dirname, 'public', 'dist'),       // needs to be an absolute path
             filename: 'bundle.js'
         }, 
         module: {
@@ -42,7 +42,8 @@ module.exports = (env) => {
         devtool: isProduction ? 'source-map' : 'inline-source-map',  // 'cheap-module-eval-source-map',    
         devServer: {
             contentBase: path.join(__dirname, 'public'),  // config Webpack Dev server w/ path to public folder;  
-            historyApiFallback: true 
+            historyApiFallback: true, 
+            publicPath: '/dist/'
         }
     }
 }
