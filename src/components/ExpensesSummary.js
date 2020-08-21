@@ -2,7 +2,6 @@ import React from 'react';
 import { connect } from 'react-redux';   // connect to connect to Redux Store
 import numeral from 'numeral';  
 import selectExpenses from '../selectors/expenses'; 
-import selectTotal from '../selectors/expenses-total'; 
 import selectExpensesTotal from '../selectors/expenses-total';
 
 export const ExpensesSummary = ({ expenseCount, expensesTotal }) => {

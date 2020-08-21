@@ -1,6 +1,18 @@
 // this is a node script
 const path = require('path');   // 'path' is a built-in node function
+const webpack = require('webpack'); 
 const ExtractTextPlugin = require('extract-text-webpack-plugin');   // node uses require (instead of import)
+
+ // NODE_ENV will be 'Production' if from Heroku, 'Test' if from package.json "test" or 'development' as default;  
+process.env.NODE_ENV = process.env.NODE_ENV || 'development';   
+
+// Specify Environment vars for Test & Dev;  dotenv installed via yarn - loads environment variables from a .env file into process.env
+// Note: these vars do not get passed to client-side JS (would be security issue), so need to manually pass these thru (see plugins below);  
+if (process.env.NODE_ENV === 'test') {
+    require('dotenv').config({ path: '.env.test'  }); 
+} else if (process.env.NODE_ENV === 'development') {
+    require('dotenv').config({ path: '.env.development' }); 
+}
 
 // more info on this at webpack.js.org/configuration/configuration-types  
 module.exports = (env) => {
@@ -36,7 +48,15 @@ module.exports = (env) => {
             }]
         }, 
         plugins: [
-            CSSExtract
+            CSSExtract, 
+            new webpack.DefinePlugin({  // will let us manually pass through Env vars to Client-side JS 
+                'process.env.FIREBASE_API_KEY': JSON.stringify(process.env.FIREBASE_API_KEY), 
+                'process.env.FIREBASE_AUTH_DOMAIN': JSON.stringify(process.env.FIREBASE_AUTH_DOMAIN), 
+                'process.env.FIREBASE_DATABASE_URL': JSON.stringify(process.env.FIREBASE_DATABASE_URL), 
+                'process.env.FIREBASE_PROJECT_ID': JSON.stringify(process.env.FIREBASE_PROJECT_ID), 
+                'process.env.FIREBASE_STORAGE_BUCKET': JSON.stringify(process.env.FIREBASE_STORAGE_BUCKET), 
+                'process.env.FIREBASE_MESSAGING_SENDER_ID': JSON.stringify(process.env.FIREBASE_MESSAGING_SENDER_ID) 
+            })
         ],
         // source-map takes a lot more time to build (is external file), but much smaller;  
         devtool: isProduction ? 'source-map' : 'inline-source-map',  // 'cheap-module-eval-source-map',    
