@@ -25,6 +25,8 @@ const expensesReducer = (state=expensesReducerDefaultState, action) => {     // 
                     }; 
                 } else return expense;   // no change
             })
+        case 'SET_EXPENSES':  // completely sets the expenses array;  we don't access state because we don't care what was in there previously
+            return action.expenses; 
         default: 
             return state; 
     }

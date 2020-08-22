@@ -38,3 +38,12 @@ test('Should FAIL to Edit expense by invalid id', () => {
     const state = expensesReducer(expenses, action);  // expenses is data array in tests\fixtures
     expect(state).toEqual(expenses);  
 });
+
+test('should set expenses', () => {
+    const action = { type: 'SET_EXPENSES', 
+        expenses: [expenses[1]] 
+    }; 
+    const state = expensesReducer(expenses, action);  // expenses is data array in tests\fixtures;  so this will start with all expenses
+                                                    // and we will test that the end result is just the one expense
+    expect(state).toEqual([expenses[1]]);     
+}); 

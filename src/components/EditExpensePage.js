@@ -1,7 +1,7 @@
 import React from 'react';   // using ES6 syntax for React;  
 import { connect } from 'react-redux'; 
 import ExpenseForm from './ExpenseForm'; 
-import { editExpense, removeExpense } from '../actions/expenses'; 
+import { editExpense, startRemoveExpense } from '../actions/expenses'; 
 
 export class EditExpensePage extends React.Component {
     onSubmit= (expense) => {
@@ -11,8 +11,8 @@ export class EditExpensePage extends React.Component {
         this.props.history.push('/');   // switch to Dashboard page;  from Chrome, click 'Components' then 'AddExpensePage' to see history object
     }
     onRemove = () => {
-        // this.props.dispatch(removeExpense({id: this.props.expense.id}));
-        this.props.removeExpense({ id: this.props.expense.id });   
+        // this.props.dispatch(startRemoveExpense({id: this.props.expense.id}));
+        this.props.startRemoveExpense({ id: this.props.expense.id });   
         this.props.history.push('/'); 
     }
     render() {
@@ -41,7 +41,7 @@ const mapStateToProps = (state, props) => {
 //  2nd param is Own props -- it's there if needed, but not needed here 
 const mapDispatchToProps = (dispatch, props) => ({     // implicitly returns object;  same as => { return { onsubmit: ... } }
     editExpense: (id, expense) => dispatch(editExpense(id, expense)), 
-    removeExpense: (data) => dispatch(removeExpense(data))
+    startRemoveExpense: (data) => dispatch(startRemoveExpense(data))
 }); 
 
 export default connect(mapStateToProps, mapDispatchToProps)(EditExpensePage); // mapStateToProps to get us current data from state

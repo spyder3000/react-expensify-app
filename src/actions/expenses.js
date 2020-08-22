@@ -40,9 +40,47 @@ export const removeExpense = ( {id } = {} ) => ({    // destructuring the args; 
     id
 });
 
+// async action that will fetch the data & then return a function where we dispatch removeExpense  
+export const startRemoveExpense = ( {id} = {} ) => {  // no arg needed as we'll be fetching expenses;  
+    // return gets called by Redux;  dispatch var allows us to use dispatch in the function 
+    return (dispatch) => {
+        return database.ref(`expenses/${id}`)   // create an array from database info using .once() & childSnapshot; 
+            .remove()               //  remove from firestore the found expense 
+            .then(() => {           //  .then() is success function;  
+                dispatch(removeExpense({id}));   // update Store to remove expense 
+            }); 
+    }
+}  
+
 // EDIT_EXPENSE action generator
 export const editExpense = (id, updates) => ({
     type: 'EDIT_EXPENSE', 
     id, 
     updates
 })
+
+// SET_EXPENSES
+export const setExpenses = (expenses) => ({
+    type: 'SET_EXPENSES', 
+    expenses
+})
+
+// async action that will fetch the data & then dispatch setExpenses  
+export const startSetExpenses = () => {  // no arg needed as we'll be fetching expenses;  
+    // return gets called by Redux;  dispatch var allows us to use dispatch in the function 
+    return (dispatch) => {
+        return database.ref('expenses')   // create an array from database info using .once() & childSnapshot; 
+            .once('value')              // get all the data at this location one time
+            .then((snapshot) => {       // .then() is success function;  firebase documenation has more info on .val() & .foreach()
+                const expenses = []; 
+                snapshot.forEach((childSnapshot) => {
+                    expenses.push({   //  basically creating an array of objects by iterating over Child snapshots;  .key is randomly generated id
+                        id: childSnapshot.key, 
+                        ...childSnapshot.val()  
+                    })
+                });    
+                
+                dispatch(setExpenses(expenses));   // setExpenses expects an array 
+            }); 
+    }
+}  

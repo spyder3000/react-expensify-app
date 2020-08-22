@@ -3,7 +3,7 @@ import ReactDOM from 'react-dom';
 import {Provider} from 'react-redux';  // Provider allows us to provide the Store to all the components in our application
 import AppRouter from './routers/AppRouter'; 
 import configureStore from './store/configureStore'; 
-import {addExpense} from './actions/expenses'
+import {startSetExpenses} from './actions/expenses'
 import {setTextFilter} from './actions/filters'
 import getVisibleExpenses from './selectors/expenses'
 import 'normalize.css/normalize.css';   // found in node_modules folder
@@ -15,9 +15,9 @@ import './firebase/firebase';
 const store = configureStore();  // this gives us access to store.subscribe() & store.dispatch(); 
 
 /* Exercise -- add 2 expensees, filter by 'bill' & log visible Expenses */
-const expenseOne = store.dispatch(addExpense({ description: 'Water Bill', amount: 4500, createdAt: 4000 }));  // amt in cents; date in ms after 1970
-const expenseTwo = store.dispatch(addExpense({ description: 'Gas Bill', amount: 2300, createdAt: 10000 })); 
-const expenseThree = store.dispatch(addExpense({ description: 'Rent', amount: 109500, createdAt: 1000 })); 
+// const expenseOne = store.dispatch(addExpense({ description: 'Water Bill', amount: 4500, createdAt: 4000 }));  // amt in cents; date in ms after 1970
+// const expenseTwo = store.dispatch(addExpense({ description: 'Gas Bill', amount: 2300, createdAt: 10000 })); 
+// const expenseThree = store.dispatch(addExpense({ description: 'Rent', amount: 109500, createdAt: 1000 })); 
 
 // store.dispatch(setTextFilter('water')); 
 
@@ -38,5 +38,12 @@ const jsx = (   /*  Provider requires 'store' prop;  note: comment not allowed i
     </Provider>
   );
   
+// Add a "Loading" message while we're waiting on the data from Firebase 
+ReactDOM.render(<p>Loading...</p>, document.getElementById('app'));
+
+store.dispatch(startSetExpenses()).then(() => {
   ReactDOM.render(jsx, document.getElementById('app'));
+})
+
+
 //ReactDOM.render(<AppRouter />, document.getElementById('app'))   // 1st param is JSX to render;  2nd is location -- e.g. 'app' on index.html;  
