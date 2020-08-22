@@ -1,7 +1,7 @@
 import configureMockStore from 'redux-mock-store'; 
 import thunk from 'redux-thunk'; 
 import { startAddExpense, addExpense, editExpense, removeExpense, setExpenses, 
-            startSetExpenses, startRemoveExpense } from '../../actions/expenses'; 
+            startSetExpenses, startRemoveExpense, startEditExpense } from '../../actions/expenses'; 
 import expenses from '../fixtures/expenses';
 import database from '../../firebase/firebase'; 
 
@@ -53,6 +53,27 @@ test('Setup Edit Expense action object', () => {
         id: '1234abc', 
         updates: {note: 'new note value'}
     })
+})
+
+/* Async function uses 'done' to force test to wait until done() is executed;  */
+test('Should Edit Expense from firebase', (done) => {
+    const store = createMockStore({}); 
+    const id = expenses[0].id; 
+    const updates = { amount: 31288 }; 
+
+    store.dispatch(startEditExpense(id, updates)).then(() => {   // can use .then() because of return promise in expenses.js
+        const actions = store.getActions();   // should just be 1 action 
+        expect(actions[0]).toEqual({
+            type: 'EDIT_EXPENSE', 
+            id,        // should get our seed data back
+            updates     // e.g. updates = updates
+        }); 
+        // return so we can chain onto this  
+        return database.ref(`expenses/${id}`).once('value'); 
+        }).then((snapshot) => {
+            expect(snapshot.val().amount).toBe(updates.amount);  // verifies that amount from update is = to amount specified in object above   
+        done();  // this is async as well, so move done() here to forces Jest to wait for this to complete
+    });  
 })
 
 test('Setup Add Expense action object with provided values', () => {

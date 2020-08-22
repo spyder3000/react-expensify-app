@@ -44,7 +44,7 @@ export const removeExpense = ( {id } = {} ) => ({    // destructuring the args; 
 export const startRemoveExpense = ( {id} = {} ) => {  // no arg needed as we'll be fetching expenses;  
     // return gets called by Redux;  dispatch var allows us to use dispatch in the function 
     return (dispatch) => {
-        return database.ref(`expenses/${id}`)   // create an array from database info using .once() & childSnapshot; 
+        return database.ref(`expenses/${id}`)   // gets the specific expense from firestore; 
             .remove()               //  remove from firestore the found expense 
             .then(() => {           //  .then() is success function;  
                 dispatch(removeExpense({id}));   // update Store to remove expense 
@@ -58,6 +58,19 @@ export const editExpense = (id, updates) => ({
     id, 
     updates
 })
+
+// async action that will fetch/update the data & then return a function where we dispatch editExpense  
+export const startEditExpense = ( id, updates ) => {    // updates is an object 
+    // return gets called by Redux;  dispatch var allows us to use dispatch in the function 
+    return (dispatch) => {
+        return database.ref(`expenses/${id}`)   // gets the specific expense from firestore; return needed so we can add .then() later
+            .update(updates)       // update all fields in records provided;
+            //.set(...updates)       // works as well;  instructor used .update though     
+            .then(() => {           //  .then() is success function;  
+                dispatch(editExpense(id, updates));   // update Store to edit expense 
+            }); 
+    }
+}
 
 // SET_EXPENSES
 export const setExpenses = (expenses) => ({
