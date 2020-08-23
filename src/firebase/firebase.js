@@ -1,5 +1,4 @@
 // where we will connect to the database;  note: earlier notes saved to 152_firebase.js & removed here  
-
 import * as firebase from 'firebase';  // * as takes all named exports from firebase & dumps into var 'firebase' (this is recommended by fb) 
   
 /*  note:  the rest of this copied from firebase.google.com (Project Overview -> register app to web) */
@@ -18,5 +17,7 @@ var firebaseConfig = {
 firebase.initializeApp(firebaseConfig); // Initialize Firebase
 
 const database = firebase.database();  
+// more info for auth setup at firebase.google.com/docs/
+const googleAuthProvider = new firebase.auth.GoogleAuthProvider();   // setting up to authenticate with Google (could do similar for Github, etc)
 
-export { firebase, database as default }
+export { firebase, googleAuthProvider, database as default }

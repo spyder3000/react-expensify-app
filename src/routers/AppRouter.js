@@ -1,27 +1,31 @@
 import React from 'react';   // using ES6 syntax for React;  
-import { BrowserRouter, Route, Switch, Link, NavLink } from 'react-router-dom'   // found on reacttraining.com site
+import { Router, Route, Switch, Link, NavLink } from 'react-router-dom'   // found on reacttraining.com site
+import createHistory from 'history/createBrowserHistory'; 
+
 import ExpenseDashBoardPage from '../components/ExpenseDashBoardPage'; 
 import AddExpensePage from '../components/AddExpensePage'; 
 import EditExpensePage from '../components/EditExpensePage'; 
-import Header from '../components/Header'; 
 import HelpExpensePage from '../components/HelpPage'; 
 import NotFoundPage from '../components/NotFoundPage'; 
+import LoginPage from '../components/LoginPage'; 
+import PrivateRoute from './PrivateRoute'; 
 
-
+export const history = createHistory(); 
 
 const AppRouter = () => (   // this is JSX;  <Route /> includes 2 props -- path & component;  
-    <BrowserRouter> 
+    /* change from BrowserRouter which has a built-in history component to Router where we can provide our our history prop  */ 
+    <Router history={history}> 
         <div>   {/*  <div> needed if using more than one <Route />;  */}
-            <Header /> 
             <Switch>     
-                <Route path="/" component={ExpenseDashBoardPage} exact={true}/>   {/* will also match /create which is unwanted */}
-                <Route path="/create" component={AddExpensePage} />
-                <Route path="/edit/:id" component={EditExpensePage} />
+                <Route path="/" component={LoginPage} exact={true}/>   {/* need exact stmt so it doesnt match /create & others */}
+                <PrivateRoute path="/dashboard" component={ExpenseDashBoardPage}/>   
+                <PrivateRoute path="/create" component={AddExpensePage} />
+                <PrivateRoute path="/edit/:id" component={EditExpensePage} />
                 <Route path="/help" component={HelpExpensePage} />
                 <Route component={NotFoundPage} />  
             </Switch>
         </div>
-    </BrowserRouter>
+    </Router>
 )
 
 export default AppRouter; 
