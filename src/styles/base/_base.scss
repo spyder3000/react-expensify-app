@@ -1,10 +1,18 @@
+// default is content-box (takes height and then adds on padding, margin, border to get final height); border-box modifies to 
+//      allot for the specified space (e.g. exactly 50px) & takes away from the padding & border as needed;  
+* {
+    box-sizing: border-box;    
+}
+
 html {
     font-size: 62.5%;   // by default 1rem = 16px;  font-size of 62.5% means that 1rem = 10px;  
 }
 
 body {
+    color: $dark-grey;
     font-family: Helvetica, Arial, sans-serif; 
     font-size: $m-size;
+    line-height: 1.6;   // gives a little more space between paragraphs
 }
 
 button {

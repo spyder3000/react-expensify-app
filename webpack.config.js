@@ -17,13 +17,13 @@ if (process.env.NODE_ENV === 'test') {
 // more info on this at webpack.js.org/configuration/configuration-types  
 module.exports = (env) => {
     const isProduction = env === 'production'; 
-    const CSSExtract = new ExtractTextPlugin('styles.css'); 
+    const CSSExtract = new ExtractTextPlugin('styles.css'); // the file we want to save the css in 
 
     //console.log('env', env);  
     return {
         //entry: './src/app.js', 
         //entry: './src/playground/destructuring.js',
-        entry: './src/app.js',  
+        entry: ['babel-polyfill', './src/app.js'],  
         output: {
             path: path.join(__dirname, 'public', 'dist'),       // needs to be an absolute path
             filename: 'bundle.js'

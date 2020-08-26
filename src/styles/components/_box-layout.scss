@@ -1,0 +1,22 @@
+.box-layout {
+    align-items: center; 
+    background: url('/images/bg.jpg');   // this code runs in browser, so it's relative to public directory
+    background-size: cover;   // always cover the container with the image, so as we adjust screen size, the image will cover the screen
+    display: flex; 
+    height: 100vh;   // 100% of viewport height
+    justify-content: center; 
+    width: 100vw;    // 100% of viewport width;  
+}
+
+.box-layout__box {
+    background: fade-out(white, .15);   // fade out about 15%, can see some of the image behind it
+    border-radius: 3px;
+    padding: $l-size $m-size; 
+    text-align: center;
+    width: 25rem; 
+}
+
+.box-layout__title {
+    margin: 0 0 $m-size 0; 
+    line-height: 1;   // all text has a line height
+}

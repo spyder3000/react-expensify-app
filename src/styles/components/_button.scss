@@ -1,0 +1,19 @@
+.button {
+    background-color: $blue; 
+    border: none; 
+    color: white; 
+    display: inline-block;   // for links that we're styling like buttons;  unlike inline, this allows for top & bottom margin/padding to take effect
+    font-size: $font-size-large; 
+    font-weight: 300; 
+    line-height: 1;          // for links that we're styling like buttons
+    padding: $s-size; 
+    text-decoration: none;   // for links that we're styling like buttons;  removes underline from button 
+}
+
+.button--logout {       /* modifier overwrites the styling from .button above */
+    background: none; 
+}
+
+.button--secondary {       /* modifier overwrites the styling from .button above */
+    background-color: #888; 
+}

@@ -1,0 +1,17 @@
+.text-input {
+    border: 1px solid #cacccd; 
+    font-size: $font-size-large; 
+    font-weight: 300; 
+    height: 50px; 
+    padding: $s-size; 
+}
+
+// from sass-lang.com 
+.select { 
+    @extend .text-input;    // sass feature that allows us to copy a similar style & then make modifications
+}
+
+.textarea { 
+   @extend .text-input; 
+   height: 10rem;  
+}

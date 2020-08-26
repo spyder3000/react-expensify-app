@@ -1,0 +1,18 @@
+.header {
+    background: $dark-blue; 
+}
+
+.header__content {
+    align-items: center;  // to align items vertically 
+    display: flex; 
+    justify-content: space-between;   // extra space will go in the middle;  
+    padding: $s-size 0; 
+}
+
+.header__title {
+    color: white; 
+    text-decoration: none;  // clears default text decoration of underline
+    h1 {        // h1 is a nested selector
+        margin: 0;  
+    }
+}

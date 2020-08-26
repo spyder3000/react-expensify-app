@@ -10,6 +10,7 @@ import 'normalize.css/normalize.css';   // found in node_modules folder
 import './styles/styles.scss'; 
 import 'react-dates/lib/css/_datepicker.css'; 
 import { firebase } from './firebase/firebase'; 
+import LoadingPage from './components/LoadingPage'; 
 // import './playground/promises'; 
 
 const store = configureStore();  // this gives us access to store.subscribe() & store.dispatch(); 
@@ -26,9 +27,9 @@ const store = configureStore();  // this gives us access to store.subscribe() & 
 //     store.dispatch(setTextFilter('bill')); 
 // }, 3000)
 
-const state = store.getState(); 
-const visibleExpenses = getVisibleExpenses(state.expenses, state.filters);  
-console.log(visibleExpenses); 
+// const state = store.getState(); 
+// const visibleExpenses = getVisibleExpenses(state.expenses, state.filters);  
+// console.log(visibleExpenses); 
 
 //console.log(store.getState()); // will display an expenses object;  
 
@@ -48,7 +49,8 @@ const renderApp = () => {
 }
 
 // Add a "Loading" message while we're waiting on the data from Firebase 
-ReactDOM.render(<p>Loading...</p>, document.getElementById('app'));
+//ReactDOM.render(<p>Loading...</p>, document.getElementById('app'));
+ReactDOM.render(<LoadingPage />, document.getElementById('app'));
 
 // firebase method that runs a callback when Auth state is changed 
 firebase.auth().onAuthStateChanged((user) => {
